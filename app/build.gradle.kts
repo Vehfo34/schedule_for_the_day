@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.compose)   // компилятор Compose, не путать с kotlin-android
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
     // Плагин kotlin.android убран, так как его нет в libs.versions.toml.
     // Плагина kotlin.compose обычно достаточно для проектов на Compose.
 }
@@ -39,12 +40,7 @@ android {
     }
 }
 
-// Современная замена устаревшему kotlinOptions
-kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-}
+
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
@@ -55,6 +51,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("androidx.room:room-runtime:2.8.4")
+    implementation("androidx.room:room-ktx:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.4")
 
     // Навигация и ViewModel (стабильные версии)
     implementation("androidx.navigation:navigation-compose:2.7.7")
