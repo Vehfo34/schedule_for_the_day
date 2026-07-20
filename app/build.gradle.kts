@@ -56,8 +56,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.8.4")
 
     // Навигация и ViewModel (стабильные версии)
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.navigation:navigation-compose:2.9.8")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
     implementation("androidx.compose.material:material-icons-extended")
 
     // Тесты
