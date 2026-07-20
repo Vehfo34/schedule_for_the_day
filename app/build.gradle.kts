@@ -1,11 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)   // компилятор Compose, не путать с kotlin-android
-    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
-    // Плагин kotlin.android убран, так как его нет в libs.versions.toml.
-    // Плагина kotlin.compose обычно достаточно для проектов на Compose.
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
-
 android {
     namespace = "com.example.schedule_for_the_day"
     compileSdk = 37 // Стабильная версия
