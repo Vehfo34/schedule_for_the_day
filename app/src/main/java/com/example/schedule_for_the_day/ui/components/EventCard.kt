@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EventCard(event: String, time: String, modifier: Modifier = Modifier) {
     var color by remember { mutableStateOf(Color (0xFFD55252)) }
-    Card(modifier = Modifier
+    Card(modifier = modifier
         .fillMaxWidth()
         .padding(8.dp),
         colors = CardDefaults.cardColors(containerColor = color)

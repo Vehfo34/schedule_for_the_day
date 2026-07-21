@@ -14,7 +14,7 @@ class ScheduleViewModel : ViewModel() {
 
     fun addEvent(event: String, time: String) {
         val newEvent = Event(id = nextId++, event = event, time = time)
-        _events.value = _events.value + newEvent
+        _events.value += newEvent
     }
 
     fun updateEvent(id: Long, event: String, time: String) {
@@ -23,9 +23,6 @@ class ScheduleViewModel : ViewModel() {
         }
     }
 
-    fun removeEvent(event: Event) {
-        _events.value = events.value - event
-    }
 
     fun getEventById(id: Long): Event? = _events.value.find { it.id == id }
 

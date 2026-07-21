@@ -25,6 +25,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.schedule_for_the_day.viewmodel.ScheduleViewModel
 
+fun parseTimeRange(timeRange: String): List<String> {
+    val parts = timeRange.split(" - ")
+    val start = parts.getOrElse(0) { "" }.split(":")
+    val end = parts.getOrElse(1) { "" }.split(":")
+    return listOf(
+        start.getOrElse(0) { "" },  // startHours
+        start.getOrElse(1) { "" },  // startMinutes
+        end.getOrElse(0) { "" },    // endHours
+        end.getOrElse(1) { "" }     // endMinutes
+    )
+}
+
 @Composable
 fun EditorScreen(
     eventId: Long,
@@ -34,14 +46,16 @@ fun EditorScreen(
     val existingEvent = remember(eventId) { viewModel.getEventById(eventId) }
     var event by remember(eventId) { mutableStateOf(existingEvent?.event ?: "") }
 
-    // Раздельные состояния для времени
-    var startHours by remember { mutableStateOf("") }
-    var startMinutes by remember { mutableStateOf("") }
-    var endHours by remember { mutableStateOf("") }
-    var endMinutes by remember { mutableStateOf("") }
+    // Извлекаем время, если событие существует
+    val timeParts = remember(existingEvent) {
+        if (existingEvent != null) parseTimeRange(existingEvent.time) else listOf("", "", "", "")
+    }
 
-    // При редактировании можно извлечь часы и минуты из existingEvent.time
-    // для упрощения пока оставим пустыми
+    var startHours by remember(eventId) { mutableStateOf(timeParts[0]) }
+    var startMinutes by remember(eventId) { mutableStateOf(timeParts[1]) }
+    var endHours by remember(eventId) { mutableStateOf(timeParts[2]) }
+    var endMinutes by remember(eventId) { mutableStateOf(timeParts[3]) }
+
 
     Card(
         modifier = Modifier
