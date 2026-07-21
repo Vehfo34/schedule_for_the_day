@@ -6,19 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+
 class ScheduleViewModel : ViewModel() {
     private var nextId = 0L
     private val _events = MutableStateFlow<List<Event>>(emptyList())
     val events: StateFlow<List<Event>> = _events.asStateFlow()
 
-    fun addEvent(title: String, time: String, description: String) {
-        val newEvent = Event(id = nextId++, title = title, time = time, description = description)
+    fun addEvent(event: String, time: String) {
+        val newEvent = Event(id = nextId++, event = event, time = time)
         _events.value = _events.value + newEvent
     }
 
-    fun updateEvent(id: Long, title: String, time: String, description: String) {
+    fun updateEvent(id: Long, event: String, time: String) {
         _events.value = _events.value.map {
-            if (it.id == id) it.copy(title = title, time = time, description = description) else it
+            if (it.id == id) it.copy(event = event, time = time) else it
         }
     }
 

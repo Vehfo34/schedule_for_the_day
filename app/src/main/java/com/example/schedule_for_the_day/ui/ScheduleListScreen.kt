@@ -37,7 +37,7 @@ fun ScheduleListScreen(
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             items(events) { event ->
                 EventCard(
-                    title = event.title,
+                    event = event.event,
                     time = event.time,
                     modifier = Modifier.clickable {
                         navController.navigate("editor?eventId=${event.id}")

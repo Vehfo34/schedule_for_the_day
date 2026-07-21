@@ -1,16 +1,22 @@
 package com.example.schedule_for_the_day.ui.navigation
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,8 +25,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.schedule_for_the_day.ui.EditorScreen
-import com.example.schedule_for_the_day.ui.MonthScreen
 import com.example.schedule_for_the_day.ui.ScheduleListScreen
+import com.example.schedule_for_the_day.ui.Settings
 import com.example.schedule_for_the_day.viewmodel.ScheduleViewModel
 
 
@@ -31,33 +37,36 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
     val viewModel: ScheduleViewModel = viewModel()
 
     Scaffold(
-        bottomBar = {
-            if (currentRoute == "list" || currentRoute == "month") {
-                NavigationBar {
-                    NavigationBarItem(
-                        selected = currentRoute == "list",
-                        onClick = { navController.navigate("list")},
-                        icon = { Icon(Icons.Default.List, contentDescription = null)},
-                        label = {Text("Список")}
-                    )
-                    NavigationBarItem(
-                        selected = currentRoute == "month",
-                        onClick = { navController.navigate("month")},
-                        icon = { Icon(Icons.Default.DateRange, contentDescription = null)},
-                        label = {Text("Месяц")}
-                    )
+        topBar = {
+            if (currentRoute == "Editing" || currentRoute == "Settings") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .height(56.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(onClick = { navController.navigate("Editing") }) {
+                        Icon(Icons.Default.List, contentDescription = null)
+                        Text("Редактирование")
+                    }
+                    TextButton(onClick = { navController.navigate("Settings") }) {
+                        Icon(Icons.Default.DateRange, contentDescription = null)
+                        Text("Настройки")
+                    }
                 }
-
             }
         }
+
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "list",
+            startDestination = "Editing",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("list") { ScheduleListScreen(navController, viewModel) }
-            composable("month") { MonthScreen(navController) }
+            composable("Editing") { ScheduleListScreen(navController, viewModel) }
+            composable("Settings") { Settings(navController = navController)}
             composable(
                 "editor?eventId={eventId}",
                 arguments = listOf(

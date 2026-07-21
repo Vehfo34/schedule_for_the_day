@@ -24,30 +24,26 @@ fun EditorScreen(
     viewModel: ScheduleViewModel = viewModel()
 ) {
     val existingEvent = remember(eventId) { viewModel.getEventById(eventId) }
-    var title by remember(eventId) { mutableStateOf(existingEvent?.title ?: "") }
+    var event by remember(eventId) { mutableStateOf(existingEvent?.event ?: "") }
     var time by remember(eventId) { mutableStateOf(existingEvent?.time ?: "") }
-    var description by remember(eventId) { mutableStateOf(existingEvent?.description ?: "") }
+
 
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         OutlinedTextField(
-            value = title,
-            onValueChange = { title = it },
+            value = event,
+            onValueChange = { event = it },
             label = { Text("Название события") })
         OutlinedTextField(
             value = time,
             onValueChange = { time = it },
             label = { Text("Время") })
-        OutlinedTextField(
-            value = description,
-            onValueChange = { description = it },
-            label = { Text("Описание") })
 
         Button(onClick = {
             if (existingEvent != null) {
-                viewModel.updateEvent(eventId, title, time, description)
+                viewModel.updateEvent(eventId, event, time)
             } else {
-                viewModel.addEvent(title, time, description)
+                viewModel.addEvent(event, time)
             }
             navController.popBackStack()
         }) {
