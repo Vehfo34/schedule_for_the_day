@@ -1,6 +1,5 @@
 package com.example.schedule_for_the_day.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

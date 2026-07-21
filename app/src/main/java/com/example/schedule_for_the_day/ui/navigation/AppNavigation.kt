@@ -1,6 +1,7 @@
 package com.example.schedule_for_the_day.ui.navigation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,10 +30,14 @@ import com.example.schedule_for_the_day.ui.EditorScreen
 import com.example.schedule_for_the_day.ui.ScheduleListScreen
 import com.example.schedule_for_the_day.ui.Settings
 import com.example.schedule_for_the_day.viewmodel.ScheduleViewModel
+import com.example.schedule_for_the_day.viewmodel.SettingsViewModel
 
 
 @Composable
-fun AppNavGraph(modifier: Modifier = Modifier) {
+fun AppNavGraph(
+    modifier: Modifier = Modifier,
+    settingsViewModel: SettingsViewModel  // <-- добавить параметр
+) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     val viewModel: ScheduleViewModel = viewModel()
@@ -43,22 +49,25 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .statusBarsPadding()
-                        .height(56.dp),
+                        .height(70.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(onClick = { navController.navigate("Editing") }) {
-                        Icon(Icons.Default.List, contentDescription = null)
-                        Text("Редактирование")
+                    Column(modifier = Modifier.padding(15.dp)) {
+                        TextButton(onClick = { navController.navigate("Editing") }) {
+                            Icon(Icons.Default.List, contentDescription = null)
+                            Text("Редактирование", fontSize = 15.sp)
+                        }
                     }
-                    TextButton(onClick = { navController.navigate("Settings") }) {
-                        Icon(Icons.Default.DateRange, contentDescription = null)
-                        Text("Настройки")
+                    Column(modifier = Modifier.padding(15.dp)) {
+                        TextButton(onClick = { navController.navigate("Settings") }) {
+                            Icon(Icons.Default.DateRange, contentDescription = null)
+                            Text("Настройки", fontSize = 15.sp)
+                        }
                     }
                 }
             }
         }
-
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -66,7 +75,13 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("Editing") { ScheduleListScreen(navController, viewModel) }
-            composable("Settings") { Settings(navController = navController)}
+            composable("Settings") {
+                // Передаём settingsViewModel из параметра
+                Settings(
+                    navController = navController,
+                    settingsViewModel = settingsViewModel
+                )
+            }
             composable(
                 "editor?eventId={eventId}",
                 arguments = listOf(
@@ -75,8 +90,7 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
                         defaultValue = -1L
                     }
                 )
-            ) {
-                    backStackEntry ->
+            ) { backStackEntry ->
                 val eventId = backStackEntry.arguments?.getLong("eventId") ?: -1L
                 EditorScreen(eventId = eventId, navController = navController, viewModel = viewModel)
             }

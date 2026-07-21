@@ -28,4 +28,5 @@ class ScheduleViewModel : ViewModel() {
     }
 
     fun getEventById(id: Long): Event? = _events.value.find { it.id == id }
+
 }

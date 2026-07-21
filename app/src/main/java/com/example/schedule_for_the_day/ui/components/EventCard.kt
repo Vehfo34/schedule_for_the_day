@@ -1,6 +1,6 @@
 package com.example.schedule_for_the_day.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,10 +18,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun EventCard(event: String, time: String, modifier: Modifier = Modifier) {
-    var color by remember { mutableStateOf(Color (0xFFEFB8C8)) }
+    var color by remember { mutableStateOf(Color (0xFFD55252)) }
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp),
@@ -35,15 +36,15 @@ fun EventCard(event: String, time: String, modifier: Modifier = Modifier) {
         ) {
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = event, style = MaterialTheme.typography.titleMedium)
-                Text(text = time, style = MaterialTheme.typography.bodySmall)
+                Text(text = event, style = MaterialTheme.typography.titleMedium, fontSize = 20.sp)
+                Text(text = time, style = MaterialTheme.typography.bodySmall, fontSize = 16.sp)
             }
             Switch(isSwitchOn, {
                 isSwitchOn = it
                 if (isSwitchOn) {
                     color = Color(0xFF1AEA59)
                 } else {
-                    color = Color(0xFFEFB8C8)
+                    color = Color(0xFFD55252)
                 }
             })
             Text(textSwitch)
