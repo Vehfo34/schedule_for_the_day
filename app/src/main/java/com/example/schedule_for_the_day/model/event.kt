@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 data class Event(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val event: String,
-    val time: String)
+    val time: String,
+    val isCompleted: Boolean = false)

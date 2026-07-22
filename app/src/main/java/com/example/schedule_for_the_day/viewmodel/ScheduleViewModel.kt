@@ -39,4 +39,11 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
 
     // Для экрана редактирования – по-прежнему возвращает Flow одного события
     fun getEventById(id: Long): Flow<Event?> = dao.observeById(id)
+
+    fun updateCompletion(id: Long, completed: Boolean) {
+        viewModelScope.launch {
+            dao.updateCompletion(id, completed)
+        }
+    }
 }
+

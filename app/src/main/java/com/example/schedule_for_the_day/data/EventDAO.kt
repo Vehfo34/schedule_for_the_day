@@ -24,4 +24,7 @@ interface EventDAO {
 
     @Delete
     suspend fun delete(event: Event)
+
+    @Query("UPDATE events SET isCompleted = :completed WHERE id = :id")
+    suspend fun updateCompletion(id: Long, completed: Boolean)
 }

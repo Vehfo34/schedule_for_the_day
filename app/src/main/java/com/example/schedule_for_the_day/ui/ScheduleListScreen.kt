@@ -39,6 +39,10 @@ fun ScheduleListScreen(
                 EventCard(
                     event = event.event,
                     time = event.time,
+                    isCompleted = event.isCompleted,          // новое: берём статус из объекта Event
+                    onCompletedChange = { completed ->        // новое: лямбда, которая вызывается при переключении свитча
+                        viewModel.updateCompletion(event.id, completed)
+                    },
                     modifier = Modifier.clickable {
                         navController.navigate("editor?eventId=${event.id}")
                     }
@@ -47,3 +51,9 @@ fun ScheduleListScreen(
         }
     }
 }
+
+
+
+
+
+
