@@ -24,7 +24,7 @@ fun ScheduleListScreen(
     navController: NavController,
     viewModel: ScheduleViewModel = viewModel()
 ) {
-    val events by viewModel.events.collectAsState()
+    val events by viewModel.events.collectAsState(initial = emptyList())
 
 
     Scaffold(
